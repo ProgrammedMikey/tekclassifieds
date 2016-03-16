@@ -25,7 +25,7 @@ class ClassifiedsController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -47,7 +47,7 @@ class ClassifiedsController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('show');
     }
 
     /**
@@ -58,7 +58,7 @@ class ClassifiedsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('edit');
     }
 
     /**

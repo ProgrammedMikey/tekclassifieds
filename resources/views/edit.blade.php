@@ -1,7 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Michael
- * Date: 3/16/2016
- * Time: 2:10 PM
- */
+@extends('layouts.main')
+
+@section('title', 'Edit')
+
+@section('content')
+    Test Edit
+@stop
