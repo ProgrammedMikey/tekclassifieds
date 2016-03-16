@@ -12,10 +12,9 @@ class AddCategoryidToClassifiedsTable extends Migration
      */
     public function up()
     {
-        Schema:table('classifieds', function(Blueprint $table){
+        Schema::table('classifieds', function(Blueprint $table){
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
-
     });
     }
 
@@ -26,6 +25,8 @@ class AddCategoryidToClassifiedsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('classifieds', function(Blueprint $table){
+        $table->dropForeign('classifieds_category_id_foreign');
+    });
     }
 }
