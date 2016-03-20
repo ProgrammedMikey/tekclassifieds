@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\StoreClassifiedRequest;
+use App\Commands\StoreClassifiedCommand;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers;
 use App\Classified;
 
 class ClassifiedsController extends Controller
@@ -51,7 +54,18 @@ class ClassifiedsController extends Controller
         $owner_id=1;
 
         //check if image is uploaded
-        if(main_image)
+        if(main_image) {
+            $main_image_filename = $main_image->getClientOrginalName();
+            $main_image -> move(public_path('images'), $main_image_filename);
+        } else {
+            $main_image_filename = 'noimage.jpg';
+        }
+        //create command
+        $command = new StoreClassifiedCommand($title, $category_id, $description, $main_image_filename, $price, $condition, $location, $email, $phone, $owner_id);
+        $this->dispatch($command);
+
+        return \Redirect::route('classifieds.index')
+            ->with('message', 'Listing Created');
     }
 
     /**
