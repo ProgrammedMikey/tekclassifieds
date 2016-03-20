@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Classified;
+
 class ClassifiedsController extends Controller
 {
     /**
@@ -15,7 +17,8 @@ class ClassifiedsController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $classifieds = Classified::all();
+        return view('index', compact('classifieds'));
     }
 
     /**
@@ -47,15 +50,11 @@ class ClassifiedsController extends Controller
      */
     public function show($id)
     {
-        return view('show');
+        $classified = Classified::find($id);
+        return view('show', compact('classifieds'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         return view('edit');
