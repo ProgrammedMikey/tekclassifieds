@@ -61,6 +61,7 @@
                                 {!! Form::label('phone', 'Contact Phone') !!}
                                 {!! Form::text('phone', $value=null, $attributes = ['class' => 'form-control', 'name' => 'phone' ]) !!}
                         </div>
+                        {!! Form::submit('Submit', $attributes = ['class' => 'btn btn-primary']) !!}
                         {!! Form::close() !!}
                 </div>
         </div>

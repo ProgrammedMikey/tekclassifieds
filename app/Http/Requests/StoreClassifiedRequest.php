@@ -20,7 +20,6 @@ class StoreClassifiedRequest extends Request
             'category_id' => 'required',
             'price' => 'required',
             'email' => 'required|email',
-
         ];
     }
 }

@@ -6,7 +6,7 @@ use App\Commands\Command;
 use Illuminate\Contracts\Bus\SelfHandling;
 use App\Classified;
 
-class CreateClassifiedCommand extends Command implements SelfHandling
+class StoreClassifiedCommand extends Command implements SelfHandling
 {
     public $title;
     public $category_id;

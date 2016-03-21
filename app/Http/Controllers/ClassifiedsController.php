@@ -1,23 +1,25 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\StoreClassifiedRequest;
+
+use App\Http\Request\StoreClassifiedRequest;
 use App\Commands\StoreClassifiedCommand;
 use Illuminate\Http\Request;
 
-
+use App\Commands;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers;
 use App\Classified;
+use App\Http\Controllers\Auth;
 
 class ClassifiedsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['index', 'show', 'search']]);
+    }
+
     public function index()
     {
         $classifieds = Classified::all();
@@ -34,12 +36,7 @@ class ClassifiedsController extends Controller
         return view('create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(StoreClassifiedRequest $request)
     {
         $title=$request->input('title');
@@ -54,8 +51,8 @@ class ClassifiedsController extends Controller
         $owner_id=1;
 
         //check if image is uploaded
-        if(main_image) {
-            $main_image_filename = $main_image->getClientOrginalName();
+        if($main_image) {
+            $main_image_filename = $main_image->getClientOriginalName();
             $main_image -> move(public_path('images'), $main_image_filename);
         } else {
             $main_image_filename = 'noimage.jpg';
@@ -77,7 +74,7 @@ class ClassifiedsController extends Controller
     public function show($id)
     {
         $classified = Classified::find($id);
-        return view('show', compact('classifieds'));
+        return view('show', compact('classified'));
     }
 
 
