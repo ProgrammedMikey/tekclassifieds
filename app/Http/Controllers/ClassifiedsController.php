@@ -8,6 +8,7 @@ use App\Commands\StoreClassifiedCommand;
 use App\Http\Requests\UpdateClassifiedRequest;
 use App\Commands\UpdateClassifiedCommand;
 
+use App\Commands\DestroyClassifiedCommand;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -114,6 +115,10 @@ class ClassifiedsController extends Controller
 
     public function destroy($id)
     {
-        //
+        $command = new DestroyClassifiedCommand($id);
+        $this->dispatch($command);
+
+        return \Redirect::route('classifieds.index')
+            ->with('message', 'Listing Removed');
     }
 }
