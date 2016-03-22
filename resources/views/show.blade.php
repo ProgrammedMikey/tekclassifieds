@@ -29,9 +29,13 @@
                     </ul>
                 </div>
             </div>
+            @if(!Auth::guest())
+                @if(Auth::user()->id == $classified->owner_id)
             <div class="pull-right classified-controls">
                 <a href="/classifieds/{{$classified->id}}/edit" class="btn btn-default">Edit</a>
             </div>
+                    @endif
+                @endif
         </div>
     </div>
 @stop

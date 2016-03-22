@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Request\StoreClassifiedRequest;
+use App\Http\Requests\StoreClassifiedRequest;
 use App\Commands\StoreClassifiedCommand;
 
-use App\Http\Request\UpdateClassifiedRequest;
+use App\Http\Requests\UpdateClassifiedRequest;
 use App\Commands\UpdateClassifiedCommand;
 
 use Illuminate\Http\Request;
@@ -15,8 +15,7 @@ use App\Commands;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Classified;
-use App\Http\Controllers\Auth;
-
+use Auth;
 class ClassifiedsController extends Controller
 {
     public function __construct()
@@ -31,11 +30,7 @@ class ClassifiedsController extends Controller
         return view('index', compact('classifieds'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('create');
