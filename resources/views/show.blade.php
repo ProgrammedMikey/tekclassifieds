@@ -29,6 +29,9 @@
                     </ul>
                 </div>
             </div>
+            <div class="pull-right classified-controls">
+                <a href="/classifieds/{{$classified->id}}/edit" class="btn btn-default">Edit</a>
+            </div>
         </div>
     </div>
 @stop

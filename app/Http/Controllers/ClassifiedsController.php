@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Request\StoreClassifiedRequest;
 use App\Commands\StoreClassifiedCommand;
+
+use App\Http\Request\UpdateClassifiedRequest;
+use App\Commands\UpdateClassifiedCommand;
+
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
 use App\Commands;
 use App\Http\Requests;
@@ -48,7 +53,7 @@ class ClassifiedsController extends Controller
         $location=$request->input('location');
         $email=$request->input('email');
         $phone=$request->input('phone');
-        $owner_id=1;
+        $owner_id= Auth::user()->id;
 
         //check if image is uploaded
         if($main_image) {
@@ -65,12 +70,7 @@ class ClassifiedsController extends Controller
             ->with('message', 'Listing Created');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $classified = Classified::find($id);
@@ -80,27 +80,43 @@ class ClassifiedsController extends Controller
 
     public function edit($id)
     {
-        return view('edit');
+        $classified = Classified::find($id);
+        return view('edit', compact('classified'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(UpdateClassifiedRequest $request, $id)
     {
-        //
+        $title=$request->input('title');
+        $category_id=$request->input('category_id');
+        $description=$request->input('description');
+        $price=$request->input('price');
+        $condition=$request->input('condition');
+        $main_image=$request->file('main_image');
+        $location=$request->input('location');
+        $email=$request->input('email');
+        $phone=$request->input('phone');
+
+
+        $current_image_filename = Classified::find($id)->main_image;
+
+
+        //check if image is uploaded
+        if($main_image) {
+            $main_image_filename = $main_image->getClientOriginalName();
+            $main_image -> move(public_path('images'), $main_image_filename);
+        } else {
+            $main_image_filename = $current_image_filename;
+        }
+        //update command
+        $command = new UpdateClassifiedCommand($id, $title, $category_id, $description, $main_image_filename, $price, $condition, $location, $email, $phone);
+        $this->dispatch($command);
+
+        return \Redirect::route('classifieds.index')
+            ->with('message', 'Listing Updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         //
